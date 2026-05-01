@@ -11,19 +11,30 @@
 
   <header class="header">
     <h1 class="logo">Pokédex</h1>
+    <div class="search-container">
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Buscar Pokémon..."
+        autocomplete="off"
+      />
+      <ul id="suggestions-list" class="suggestions-list hidden"></ul>
+    </div>
+  </header>
 
-    <!-- BUSCADOR -->
-        <div class="search-container">
-        <input
-            type="text"
-            id="search-input"
-            class="search-input"
-            placeholder="Buscar Pokémon..."
-            autocomplete="off"
-        />
-        <ul id="suggestions-list" class="suggestions-list hidden"></ul>
-        </div>
-     </header>
+  <main class="main">
+
+    <section id="pokemon-grid" class="pokemon-grid">
+    </section>
+
+    <div class="pagination">
+      <button id="btn-prev" class="btn-page" disabled>← Anterior</button>
+      <span id="page-indicator" class="page-indicator">Página 1</span>
+      <button id="btn-next" class="btn-page">Siguiente →</button>
+    </div>
+
+  </main>
 
   <script src="app.js"></script>
 </body>
