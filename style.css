@@ -224,3 +224,310 @@ body {
 .card.type-ghost::before    { background: var(--ghost); }
 .card.type-steel    { border-color: var(--steel);    }
 .card.type-steel::before    { background: var(--steel); }
+
+.type-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  text-transform: capitalize;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.type-badge.type-fire     { background: var(--fire); }
+.type-badge.type-water    { background: var(--water); color: #1a1a2e; }
+.type-badge.type-grass    { background: var(--grass); color: #1a1a2e; }
+.type-badge.type-electric { background: var(--electric); color: #1a1a2e; }
+.type-badge.type-psychic  { background: var(--psychic); }
+.type-badge.type-ice      { background: var(--ice); color: #1a1a2e; }
+.type-badge.type-dragon   { background: var(--dragon); }
+.type-badge.type-dark     { background: var(--dark); }
+.type-badge.type-fairy    { background: var(--fairy); color: #1a1a2e; }
+.type-badge.type-normal   { background: var(--normal); color: #1a1a2e; }
+.type-badge.type-fighting { background: var(--fighting); }
+.type-badge.type-flying   { background: var(--flying); color: #1a1a2e; }
+.type-badge.type-poison   { background: var(--poison); }
+.type-badge.type-ground   { background: var(--ground); color: #1a1a2e; }
+.type-badge.type-rock     { background: var(--rock); }
+.type-badge.type-bug      { background: var(--bug); color: #1a1a2e; }
+.type-badge.type-ghost    { background: var(--ghost); }
+.type-badge.type-steel    { background: var(--steel); color: #1a1a2e; }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.btn-page {
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-page:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-page:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: var(--shadow);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--surface2);
+  border: none;
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--accent);
+}
+
+.modal-header {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.modal-imgs {
+  flex-shrink: 0;
+}
+
+.modal-img {
+  width: 120px;
+  height: 120px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+
+.modal-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal-id {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.modal-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.modal-types {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.shiny-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+}
+
+.shiny-toggle input {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.modal-measures {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.measure-box {
+  flex: 1;
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.measure-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.measure-value {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
+}
+
+.modal-stats,
+.modal-moves,
+.modal-evolutions {
+  margin-bottom: 1.2rem;
+}
+
+.stats-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-item {
+  display: grid;
+  grid-template-columns: 100px 40px 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+}
+
+.stat-name {
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.stat-value {
+  font-weight: 800;
+  text-align: right;
+}
+
+.stat-bar-bg {
+  background: var(--surface2);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.6s ease;
+}
+
+.moves-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.move-item {
+  background: var(--surface2);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.evo-chain {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.evo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+.evo-item img {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  transition: transform 0.2s;
+}
+
+.evo-item img:hover {
+  transform: scale(1.15);
+}
+
+.evo-item span {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.evo-arrow {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
