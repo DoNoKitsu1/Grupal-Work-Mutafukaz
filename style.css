@@ -7,6 +7,24 @@
   --text-muted: #8892a4;
   --radius: 16px;
   --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --fire:     #ff6b35;
+  --water:    #4fc3f7;
+  --grass:    #66bb6a;
+  --electric: #ffd54f;
+  --psychic:  #f06292;
+  --ice:      #80deea;
+  --dragon:   #7c4dff;
+  --dark:     #546e7a;
+  --fairy:    #f48fb1;
+  --normal:   #bdbdbd;
+  --fighting: #ef5350;
+  --flying:   #90caf9;
+  --poison:   #ab47bc;
+  --ground:   #d4a84b;
+  --rock:     #8d6e63;
+  --bug:      #aed581;
+  --ghost:    #5c6bc0;
+  --steel:    #b0bec5;
 }
 
 *, *::before, *::after {
@@ -169,3 +187,40 @@ body {
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.card.type-fire     { border-color: var(--fire);     }
+.card.type-fire::before     { background: var(--fire); }
+.card.type-water    { border-color: var(--water);    }
+.card.type-water::before    { background: var(--water); }
+.card.type-grass    { border-color: var(--grass);    }
+.card.type-grass::before    { background: var(--grass); }
+.card.type-electric { border-color: var(--electric); }
+.card.type-electric::before { background: var(--electric); }
+.card.type-psychic  { border-color: var(--psychic);  }
+.card.type-psychic::before  { background: var(--psychic); }
+.card.type-ice      { border-color: var(--ice);      }
+.card.type-ice::before      { background: var(--ice); }
+.card.type-dragon   { border-color: var(--dragon);   }
+.card.type-dragon::before   { background: var(--dragon); }
+.card.type-dark     { border-color: var(--dark);     }
+.card.type-dark::before     { background: var(--dark); }
+.card.type-fairy    { border-color: var(--fairy);    }
+.card.type-fairy::before    { background: var(--fairy); }
+.card.type-normal   { border-color: var(--normal);   }
+.card.type-normal::before   { background: var(--normal); }
+.card.type-fighting { border-color: var(--fighting); }
+.card.type-fighting::before { background: var(--fighting); }
+.card.type-flying   { border-color: var(--flying);   }
+.card.type-flying::before   { background: var(--flying); }
+.card.type-poison   { border-color: var(--poison);   }
+.card.type-poison::before   { background: var(--poison); }
+.card.type-ground   { border-color: var(--ground);   }
+.card.type-ground::before   { background: var(--ground); }
+.card.type-rock     { border-color: var(--rock);     }
+.card.type-rock::before     { background: var(--rock); }
+.card.type-bug      { border-color: var(--bug);      }
+.card.type-bug::before      { background: var(--bug); }
+.card.type-ghost    { border-color: var(--ghost);    }
+.card.type-ghost::before    { background: var(--ghost); }
+.card.type-steel    { border-color: var(--steel);    }
+.card.type-steel::before    { background: var(--steel); }
