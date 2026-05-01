@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokédex</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1 class="logo">Pokédex</h1>
+
+    <!-- BUSCADOR -->
+    <div class="search-container">
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Buscar Pokémon..."
+        autocomplete="off"
+      />
+      <ul id="suggestions-list" class="suggestions-list hidden"></ul>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- GRID DE TARJETAS -->
+    <section id="pokemon-grid" class="pokemon-grid">
+      <!-- Las tarjetas se generan desde app.js -->
+      <!-- Ejemplo de estructura de tarjeta:
+      <div class="card type-fire">
+        <span class="card-id">#001</span>
+        <img class="card-img" src="..." alt="bulbasaur" />
+        <h2 class="card-name">Bulbasaur</h2>
+        <div class="card-types">
+          <span class="type-badge type-grass">grass</span>
+          <span class="type-badge type-poison">poison</span>
+        </div>
+      </div>
+      -->
+    </section>
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination">
+      <button id="btn-prev" class="btn-page" disabled>← Anterior</button>
+      <span id="page-indicator" class="page-indicator">Página 1</span>
+      <button id="btn-next" class="btn-page">Siguiente →</button>
+    </div>
+
+  </main>
+
+  <!-- MODAL DE DETALLES -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div id="modal" class="modal">
+
+      <button id="modal-close" class="modal-close">✕</button>
+
+      <div class="modal-header">
+        <div class="modal-imgs">
+          <img id="modal-img" class="modal-img" src="" alt="" />
+          <img id="modal-img-shiny" class="modal-img hidden" src="" alt="" />
+        </div>
+        <div class="modal-title-block">
+          <span id="modal-id" class="modal-id">#001</span>
+          <h2 id="modal-name" class="modal-name">Bulbasaur</h2>
+          <div id="modal-types" class="modal-types"></div>
+          <label class="shiny-toggle">
+            <input type="checkbox" id="shiny-checkbox" />
+            ✨ Ver Shiny
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- MEDIDAS -->
+        <div class="modal-measures">
+          <div class="measure-box">
+            <span class="measure-label">Altura</span>
+            <span id="modal-height" class="measure-value">—</span>
+          </div>
+          <div class="measure-box">
+            <span class="measure-label">Peso</span>
+            <span id="modal-weight" class="measure-value">—</span>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="modal-stats">
+          <h3 class="section-title">Stats</h3>
+          <ul id="modal-stats-list" class="stats-list">
+            <!-- generado por app.js -->
+          </ul>
+        </div>
+
+        <!-- MOVIMIENTOS -->
+        <div class="modal-moves">
+          <h3 class="section-title">Movimientos</h3>
+          <ul id="modal-moves-list" class="moves-list">
+            <!-- generado por app.js -->
+          </ul>
+        </div>
+
+        <!-- EVOLUCIONES -->
+        <div class="modal-evolutions">
+          <h3 class="section-title">Evoluciones</h3>
+          <div id="modal-evo-chain" class="evo-chain">
+            <!-- generado por app.js -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
