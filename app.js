@@ -4,12 +4,22 @@ let offset = 0;
 const limit = 10;
 
 async function fetchPokemonList() {
-  const res = await fetch(`${API_URL}?limit=${limit}&offset=${offset}`);
-  const data = await res.json();
+  try {
+    const res = await fetch(`${API_URL}?limit=${limit}&offset=${offset}`);
 
-  console.log("Lista de Pokémon:", data.results);
+    if (!res.ok) {
+      throw new Error("No se pudo obtener la lista de Pokémon");
+    }
 
-  return data.results;
+    const data = await res.json();
+
+    console.log("Lista de Pokémon:", data.results);
+
+    return data.results;
+  } catch (err) {
+    console.error("Error al cargar la lista:", err);
+    return [];
+  }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
