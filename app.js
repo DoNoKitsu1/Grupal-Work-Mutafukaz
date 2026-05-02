@@ -68,15 +68,25 @@ async function fetchPokemonList() {
 }
 
 async function fetchPokemonDetails(url) {
-  const res = await fetch(url);
-  const pokemon = await res.json();
+  try {
+    const res = await fetch(url);
 
-  return {
-    id: pokemon.id,
-    name: pokemon.name,
-    image: pokemon.sprites.other["official-artwork"].front_default,
-    types: pokemon.types.map((item) => item.type.name),
-  };
+    if (!res.ok) {
+      throw new Error("Could not fetch pokemon details");
+    }
+
+    const pokemon = await res.json();
+
+    return {
+      id: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.sprites.other["official-artwork"].front_default,
+      types: pokemon.types.map((item) => item.type.name),
+    };
+  } catch (err) {
+    console.error("Error loading pokemon details:", err);
+    return null;
+  }
 }
 
 async function loadPokemonPage() {
@@ -86,9 +96,11 @@ async function loadPokemonPage() {
     pokemonList.map((pokemon) => fetchPokemonDetails(pokemon.url))
   );
 
-  console.log("Pokemon details:", pokemonDetails);
+  const validPokemon = pokemonDetails.filter((pokemon) => pokemon !== null);
 
-  return pokemonDetails;
+  console.log("Pokemon details:", validPokemon);
+
+  return validPokemon;
 }
 
 async function showPokemonTypes(pokemonId) {
