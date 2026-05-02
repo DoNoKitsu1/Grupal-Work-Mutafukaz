@@ -8,16 +8,16 @@ async function fetchPokemonList() {
     const res = await fetch(`${API_URL}?limit=${limit}&offset=${offset}`);
 
     if (!res.ok) {
-      throw new Error("No se pudo obtener la lista de Pokémon");
+      throw new Error("Could not fetch pokemon list");
     }
 
     const data = await res.json();
 
-    console.log("Lista de Pokémon:", data.results);
+    console.log("Pokemon list:", data.results);
 
     return data.results;
   } catch (err) {
-    console.error("Error al cargar la lista:", err);
+    console.error("Error landing pokemon list:", err);
     return [];
   }
 }
