@@ -1,25 +1,26 @@
-function mostrarTiposPokemon(idPokemon) {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)
-        .then(respuesta => respuesta.json())
-        .then(data => {
-            const tipos = data.types.map(tipoInfo => tipoInfo.type.name);
+async function showPokemonTypes(pokemonId) {
+    try {
+        // Usamos await en lugar de .then() para esperar la respuesta
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        const types = data.types.map(typeInfo => typeInfo.type.name);
+        
+        const typesContainer = document.querySelector('#modal-types');
+        
+        if (typesContainer) {
+            typesContainer.innerHTML = ''; 
             
-            const contenedorTipos = document.querySelector('.contenedor-tipos');
-            
-            if (contenedorTipos) {
-                contenedorTipos.innerHTML = ''; 
+            types.forEach(type => {
+                const typeSpan = document.createElement('span');
+                typeSpan.textContent = type;
                 
-                tipos.forEach(tipo => {
-                    const spanTipo = document.createElement('span');
-                    spanTipo.textContent = tipo;
-                    
-                    spanTipo.classList.add('tipo-badge', `type-${tipo}`);
-                    
-                    contenedorTipos.appendChild(spanTipo);
-                });
-            }
-        })
-        .catch(error => {
-            console.error("Hubo un error al extraer los tipos:", error);
-        });
+                typeSpan.classList.add('type-badge', `type-${type}`);
+                
+                typesContainer.appendChild(typeSpan);
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching pokemon types:", error);
+    }
 }
