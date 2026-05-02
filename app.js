@@ -1,6 +1,5 @@
 async function showPokemonTypes(pokemonId) {
     try {
-        // Usamos await en lugar de .then() para esperar la respuesta
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
         const data = await response.json();
         
