@@ -138,7 +138,7 @@ body {
   gap: 0.4rem;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -155,6 +155,7 @@ body {
 .card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow);
+  filter: brightness(1.1);
 }
 
 .card:hover::before {
@@ -172,6 +173,11 @@ body {
   height: 96px;
   image-rendering: pixelated;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img {
+  transform: scale(1.1) translateY(-4px);
 }
 
 .card-name {
@@ -233,6 +239,11 @@ body {
   text-transform: capitalize;
   color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  transition: transform 0.15s ease;
+}
+
+.type-badge:hover {
+  transform: scale(1.1);
 }
 
 .type-badge.type-fire     { background: var(--fire); }
@@ -272,12 +283,13 @@ body {
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .btn-page:hover:not(:disabled) {
   background: var(--accent);
   color: #fff;
+  transform: scale(1.05);
 }
 
 .btn-page:disabled {
@@ -359,6 +371,11 @@ body {
   height: 120px;
   image-rendering: pixelated;
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  transition: transform 0.3s ease;
+}
+
+.modal-img:hover {
+  transform: scale(1.05);
 }
 
 .modal-title-block {
