@@ -1,8 +1,16 @@
 const searchInput = document.getElementById("search-input");
 const suggestionsList = document.getElementById("suggestions-list");
 const pokemonGrid = document.getElementById("pokemon-grid");
+const modalOverlay = document.getElementById("modal-overlay");
+const modalClose = document.getElementById("modal-close");
+const shinyCheckbox = document.getElementById("shiny-checkbox");
 
 let allPokemon = [];
+let currentPokemonData = null;
+
+const API_URL = "https://pokeapi.co/api/v2/pokemon";
+let offset = 0;
+const limit = 10;
 
 function filterPokemon(searchTerm) {
   suggestionsList.innerHTML = "";
@@ -28,6 +36,7 @@ function displaySuggestions(list) {
     li.addEventListener("click", () => {
       searchInput.value = pokemon.name;
       suggestionsList.classList.add("hidden");
+      loadPokemonByName(pokemon.name);
     });
     suggestionsList.appendChild(li);
   });
@@ -99,7 +108,12 @@ async function fetchPokemonDetails(url) {
       id: pokemon.id,
       name: pokemon.name,
       image: pokemon.sprites.other["official-artwork"].front_default,
+      shiny: pokemon.sprites.front_shiny,
       types: pokemon.types.map((item) => item.type.name),
+      weight: pokemon.weight / 10,
+      height: pokemon.height / 10,
+      stats: pokemon.stats,
+      moves: pokemon.moves,
     };
   } catch (err) {
     console.error("Error loading pokemon details:", err);
@@ -115,52 +129,105 @@ async function loadPokemonPage() {
   return pokemonDetails.filter((pokemon) => pokemon !== null);
 
   const validPokemon = pokemonDetails.filter((pokemon) => pokemon !== null);
-
-  console.log("Pokemon details:", validPokemon);
-
   renderPokemonCards(validPokemon);
-
-  return validPokemon;
+  updatePagination();
 }
 
 function renderPokemonCards(pokemonList) {
   pokemonGrid.innerHTML = "";
-
   pokemonList.forEach((pokemon) => {
     const mainType = pokemon.types[0];
-
     const card = document.createElement("div");
     card.classList.add("card", `type-${mainType}`);
     card.dataset.pokemonId = pokemon.id;
-
     card.innerHTML = `
       <span class="card-id">#${pokemon.id.toString().padStart(3, "0")}</span>
-
-      <img
-        class="card-img"
-        src="${pokemon.image}"
-        alt="${pokemon.name}"
-      />
-
-      <h2 class="card-name">${pokemon.name.toUpperCase()}</h2>
-
+      <img class="card-img" src="${pokemon.image}" alt="${pokemon.name}" />
+      <h2 class="card-name">${pokemon.name}</h2>
       <div class="card-types">
-        ${pokemon.types
-          .map(
-            (type) => `
-              <span class="type-badge type-${type}">
-                ${typeTranslations[type] || type}
-              </span>
-            `
-          )
-          .join("")}
+        ${pokemon.types.map((type) => `<span class="type-badge type-${type}">${type}</span>`).join("")}
       </div>
     `;
-
+    card.addEventListener("click", () => openModal(pokemon));
     pokemonGrid.appendChild(card);
   });
 }
 
+function updatePagination() {
+  const btnPrev = document.getElementById("btn-prev");
+  const btnNext = document.getElementById("btn-next");
+  const pageIndicator = document.getElementById("page-indicator");
+  btnPrev.disabled = offset === 0;
+  pageIndicator.textContent = `Page ${offset / limit + 1}`;
+  btnNext.addEventListener("click", () => {
+    offset += limit;
+    loadPokemonPage();
+  });
+  btnPrev.addEventListener("click", () => {
+    if (offset > 0) {
+      offset -= limit;
+      loadPokemonPage();
+    }
+  });
+}
+
+function openModal(pokemon) {
+  currentPokemonData = pokemon;
+  document.getElementById("modal-id").textContent = `#${pokemon.id.toString().padStart(3, "0")}`;
+  document.getElementById("modal-name").textContent = pokemon.name;
+  document.getElementById("modal-img").src = pokemon.image;
+  document.getElementById("modal-img-shiny").src = pokemon.shiny;
+  document.getElementById("modal-height").textContent = `${pokemon.height} m`;
+  document.getElementById("modal-weight").textContent = `${pokemon.weight} kg`;
+
+  const typesContainer = document.getElementById("modal-types");
+  typesContainer.innerHTML = "";
+  pokemon.types.forEach((type) => {
+    const span = document.createElement("span");
+    span.classList.add("type-badge", `type-${type}`);
+    span.textContent = type;
+    typesContainer.appendChild(span);
+  });
+
+  const statsList = document.getElementById("modal-stats-list");
+  statsList.innerHTML = "";
+  pokemon.stats.forEach((statInfo) => {
+    const li = document.createElement("li");
+    li.classList.add("stat-item");
+    const value = statInfo.base_stat;
+    const percent = Math.min((value / 255) * 100, 100).toFixed(1);
+    li.innerHTML = `
+      <span class="stat-name">${statInfo.stat.name}</span>
+      <span class="stat-value">${value}</span>
+      <div class="stat-bar-bg">
+        <div class="stat-bar-fill" style="width: ${percent}%"></div>
+      </div>
+    `;
+    statsList.appendChild(li);
+  });
+
+  const movesList = document.getElementById("modal-moves-list");
+  movesList.innerHTML = "";
+  const randomMoves = pokemon.moves.sort(() => Math.random() - 0.5).slice(0, 3);
+  randomMoves.forEach((moveInfo) => {
+    const li = document.createElement("li");
+    li.classList.add("move-item");
+    li.textContent = moveInfo.move.name;
+    movesList.appendChild(li);
+  });
+
+  shinyCheckbox.checked = false;
+  document.getElementById("modal-img").classList.remove("hidden");
+  document.getElementById("modal-img-shiny").classList.add("hidden");
+
+  modalOverlay.classList.remove("hidden");
+}
+
+async function loadPokemonByName(name) {
+  try {
+    const res = await fetch(`${API_URL}/${name}`);
+    if (!res.ok) {
+      throw new Error("Could not fetch pokemon by name");
 async function showPokemonTypes(pokemonId) {
   try {
     const response = await fetch(`${API_URL}/${pokemonId}`);
@@ -176,11 +243,50 @@ async function showPokemonTypes(pokemonId) {
         typesContainer.appendChild(typeSpan);
       });
     }
-  } catch (error) {
-    console.error("Error fetching pokemon types:", error);
+    const pokemon = await res.json();
+    const data = {
+      id: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.sprites.other["official-artwork"].front_default,
+      shiny: pokemon.sprites.front_shiny,
+      types: pokemon.types.map((item) => item.type.name),
+      weight: pokemon.weight / 10,
+      height: pokemon.height / 10,
+      stats: pokemon.stats,
+      moves: pokemon.moves,
+    };
+    openModal(data);
+  } catch (err) {
+    console.error("Error loading pokemon by name:", err);
   }
 }
 
+modalClose.addEventListener("click", () => {
+  modalOverlay.classList.add("hidden");
+});
+
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target === modalOverlay) {
+    modalOverlay.classList.add("hidden");
+  }
+});
+
+shinyCheckbox.addEventListener("change", () => {
+  const normalImg = document.getElementById("modal-img");
+  const shinyImg = document.getElementById("modal-img-shiny");
+  if (shinyCheckbox.checked) {
+    normalImg.classList.add("hidden");
+    shinyImg.classList.remove("hidden");
+  } else {
+    normalImg.classList.remove("hidden");
+    shinyImg.classList.add("hidden");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchAllPokemonNames();
+  await loadPokemonPage();
+});
 document.addEventListener("DOMContentLoaded", async () => {
   await fetchAllPokemonNames();
   await loadPokemonPage();
