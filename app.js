@@ -249,3 +249,30 @@ async function showPokemonMoves(pokemonId) {
         console.error("Error fetching pokemon moves:", error);
     }
 }
+
+async function setupShinyToggle(pokemonId) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        const shinyCheckbox = document.querySelector('#shiny-checkbox');
+        const pokemonImage = document.querySelector('#modal-image');
+        
+        if (shinyCheckbox && pokemonImage) {
+            shinyCheckbox.checked = false;
+            
+            const newCheckbox = shinyCheckbox.cloneNode(true);
+            shinyCheckbox.parentNode.replaceChild(newCheckbox, shinyCheckbox);
+            
+            çnewCheckbox.addEventListener('change', (evento) => {
+                if (evento.target.checked) {
+                    pokemonImage.src = data.sprites.front_shiny;
+                } else {
+                    pokemonImage.src = data.sprites.front_default; 
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Error setting up shiny toggle:", error);
+    }
+}
