@@ -48,6 +48,27 @@ const API_URL = "https://pokeapi.co/api/v2/pokemon";
 let offset = 0;
 const limit = 10;
 
+const typeTranslations = {
+  normal: "Normal",
+  fire: "Fuego",
+  water: "Agua",
+  grass: "Planta",
+  electric: "Eléctrico",
+  ice: "Hielo",
+  fighting: "Lucha",
+  poison: "Veneno",
+  ground: "Tierra",
+  flying: "Volador",
+  psychic: "Psíquico",
+  bug: "Bicho",
+  rock: "Roca",
+  ghost: "Fantasma",
+  dragon: "Dragón",
+  dark: "Siniestro",
+  steel: "Acero",
+  fairy: "Hada",
+};
+
 async function fetchPokemonList() {
   try {
     const res = await fetch(`${API_URL}?limit=${limit}&offset=${offset}`);
@@ -116,7 +137,7 @@ async function showPokemonTypes(pokemonId) {
 
       types.forEach((type) => {
         const typeSpan = document.createElement("span");
-        typeSpan.textContent = type;
+        typeSpan.textContent = typeTranslations[type] || type;
         typeSpan.classList.add("type-badge", `type-${type}`);
 
         typesContainer.appendChild(typeSpan);
