@@ -54,6 +54,12 @@ Abre `index.html` en el navegador. No requiere servidor ni dependencias.
 2. Mateo hizo pr de su feat en main y le aprobamos sin verificar en que rama estaba pusheando (skill issue). Y bueno se mergeo
 3. Joel hizo commits directamente en develop
 
+## Gitflow
+![Git1](Gitflow1.png)
+
+![Git2](Gitflow2.png)
+
+
 ## DISCLAIMER 
 
-**La tarean se dividio pensado en 4 integrantes, se le asignos sus tasks siguiendo metodoligia git flow al cuarto integrante pero no realizo su parte, para tener algo funcional y por falta de tiempo  nos vimos en la necesidad en la ultima hora de cambiar de 3 reviws a 2 y de hacer sus task con claude.** Att: wGamba
+**La tarea se dividio pensado en 4 integrantes, se le asignos sus tasks siguiendo metodoligia git flow al cuarto integrante pero no realizo su parte, para tener algo funcional y por falta de tiempo  nos vimos en la necesidad de en la ultima hora de cambiar de 3 reviews a 2 y de hacer sus task con claude.** Att: wGamba
