@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 async function showPokemonTypes(pokemonId) {
     try {
-        // Usamos await en lugar de .then() para esperar la respuesta
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
         const data = await response.json();
         
@@ -49,5 +48,33 @@ async function showPokemonTypes(pokemonId) {
         }
     } catch (error) {
         console.error("Error fetching pokemon types:", error);
+    }
+}
+
+
+async function showPokemonStats(pokemonId) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        const statsContainer = document.querySelector('#modal-stats');
+        
+        if (statsContainer) {
+            statsContainer.innerHTML = ''; 
+            
+            data.stats.forEach(statInfo => {
+                const statName = statInfo.stat.name; 
+                const statValue = statInfo.base_stat;
+
+                const statItem = document.createElement('div');
+                statItem.classList.add('stat-item');
+                
+                statItem.textContent = `${statName.toUpperCase()}: ${statValue}`;
+                
+                statsContainer.appendChild(statItem);
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching pokemon stats:", error);
     }
 }
