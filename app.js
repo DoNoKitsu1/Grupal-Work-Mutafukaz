@@ -192,3 +192,29 @@ async function showPokemonTypes(pokemonId) {
 document.addEventListener("DOMContentLoaded", async () => {
   await loadPokemonPage();
 });
+
+async function showPokemonMeasurements(pokemonId) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        // Hacemos la conversión a kilogramos y metros
+        const weightInKg = data.weight / 10;
+        const heightInMeters = data.height / 10;
+        
+        // Buscamos dónde inyectarlo (Ajusta los IDs si es necesario)
+        const weightContainer = document.querySelector('#modal-weight');
+        const heightContainer = document.querySelector('#modal-height');
+        
+        if (weightContainer) {
+            weightContainer.textContent = `${weightInKg} kg`;
+        }
+        
+        if (heightContainer) {
+            heightContainer.textContent = `${heightInMeters} m`;
+        }
+        
+    } catch (error) {
+        console.error("Error fetching pokemon measurements:", error);
+    }
+}
