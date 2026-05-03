@@ -109,7 +109,6 @@ async function showPokemonTypes(pokemonId) {
     const data = await response.json();
 
     const types = data.types.map((typeInfo) => typeInfo.type.name);
-
     const typesContainer = document.querySelector("#modal-types");
 
     if (typesContainer) {
@@ -118,7 +117,6 @@ async function showPokemonTypes(pokemonId) {
       types.forEach((type) => {
         const typeSpan = document.createElement("span");
         typeSpan.textContent = type;
-
         typeSpan.classList.add("type-badge", `type-${type}`);
 
         typesContainer.appendChild(typeSpan);
