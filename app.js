@@ -46,6 +46,10 @@ searchInput.addEventListener("input", (e) => {
   filterPokemon(e.target.value);
 });
 
+const API_URL = "https://pokeapi.co/api/v2/pokemon";
+let offset = 0;
+const limit = 10;
+
 async function fetchAllPokemonNames() {
   try {
     const res = await fetch(`${API_URL}?limit=1000&offset=0`);
@@ -58,6 +62,26 @@ async function fetchAllPokemonNames() {
     console.error("Error loading pokemon names:", err);
   }
 }
+const typeTranslations = {
+  normal: "Normal",
+  fire: "Fuego",
+  water: "Agua",
+  grass: "Planta",
+  electric: "Eléctrico",
+  ice: "Hielo",
+  fighting: "Lucha",
+  poison: "Veneno",
+  ground: "Tierra",
+  flying: "Volador",
+  psychic: "Psíquico",
+  bug: "Bicho",
+  rock: "Roca",
+  ghost: "Fantasma",
+  dragon: "Dragón",
+  dark: "Siniestro",
+  steel: "Acero",
+  fairy: "Hada",
+};
 
 async function fetchPokemonList() {
   try {
@@ -102,6 +126,8 @@ async function loadPokemonPage() {
   const pokemonDetails = await Promise.all(
     pokemonList.map((pokemon) => fetchPokemonDetails(pokemon.url))
   );
+  return pokemonDetails.filter((pokemon) => pokemon !== null);
+
   const validPokemon = pokemonDetails.filter((pokemon) => pokemon !== null);
   renderPokemonCards(validPokemon);
   updatePagination();
@@ -202,6 +228,20 @@ async function loadPokemonByName(name) {
     const res = await fetch(`${API_URL}/${name}`);
     if (!res.ok) {
       throw new Error("Could not fetch pokemon by name");
+async function showPokemonTypes(pokemonId) {
+  try {
+    const response = await fetch(`${API_URL}/${pokemonId}`);
+    const data = await response.json();
+    const types = data.types.map((typeInfo) => typeInfo.type.name);
+    const typesContainer = document.querySelector("#modal-types");
+    if (typesContainer) {
+      typesContainer.innerHTML = "";
+      types.forEach((type) => {
+        const typeSpan = document.createElement("span");
+        typeSpan.textContent = typeTranslations[type] || type;
+        typeSpan.classList.add("type-badge", `type-${type}`);
+        typesContainer.appendChild(typeSpan);
+      });
     }
     const pokemon = await res.json();
     const data = {
@@ -247,3 +287,64 @@ document.addEventListener("DOMContentLoaded", async () => {
   await fetchAllPokemonNames();
   await loadPokemonPage();
 });
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchAllPokemonNames();
+  await loadPokemonPage();
+});
+
+async function showPokemonMeasurements(pokemonId) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        // Hacemos la conversión a kilogramos y metros
+        const weightInKg = data.weight / 10;
+        const heightInMeters = data.height / 10;
+        
+        // Buscamos dónde inyectarlo (Ajusta los IDs si es necesario)
+        const weightContainer = document.querySelector('#modal-weight');
+        const heightContainer = document.querySelector('#modal-height');
+        
+        if (weightContainer) {
+            weightContainer.textContent = `${weightInKg} kg`;
+        }
+        
+        if (heightContainer) {
+            heightContainer.textContent = `${heightInMeters} m`;
+        }
+        
+    } catch (error) {
+        console.error("Error fetching pokemon measurements:", error);
+    }
+}
+
+async function showPokemonMoves(pokemonId) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        const allMoves = data.moves;
+        
+        const randomMoves = allMoves.sort(() => 0.5 - Math.random()).slice(0, 3);
+        
+        const moveNames = randomMoves.map(moveInfo => moveInfo.move.name);
+        
+        const movesContainer = document.querySelector('#modal-moves');
+        
+        if (movesContainer) {
+            movesContainer.innerHTML = ''; // Limpiamos ataques de Pokémon anteriores
+            
+            moveNames.forEach(move => {
+                const moveSpan = document.createElement('span');
+                
+               moveSpan.textContent = move.replace('-', ' '); 
+                
+                moveSpan.classList.add('move-badge'); 
+                
+                movesContainer.appendChild(moveSpan);
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching pokemon moves:", error);
+    }
+}
