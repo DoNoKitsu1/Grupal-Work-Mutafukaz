@@ -211,3 +211,34 @@ async function showPokemonMeasurements(pokemonId) {
         console.error("Error fetching pokemon measurements:", error);
     }
 }
+
+async function showPokemonMoves(pokemonId) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const data = await response.json();
+        
+        const allMoves = data.moves;
+        
+        const randomMoves = allMoves.sort(() => 0.5 - Math.random()).slice(0, 3);
+        
+        const moveNames = randomMoves.map(moveInfo => moveInfo.move.name);
+        
+        const movesContainer = document.querySelector('#modal-moves');
+        
+        if (movesContainer) {
+            movesContainer.innerHTML = ''; // Limpiamos ataques de Pokémon anteriores
+            
+            moveNames.forEach(move => {
+                const moveSpan = document.createElement('span');
+                
+               moveSpan.textContent = move.replace('-', ' '); 
+                
+                moveSpan.classList.add('move-badge'); 
+                
+                movesContainer.appendChild(moveSpan);
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching pokemon moves:", error);
+    }
+}
