@@ -1,6 +1,9 @@
 const searchInput = document.getElementById("search-input");
 const suggestionsList = document.getElementById("suggestions-list");
 const pokemonGrid = document.getElementById("pokemon-grid");
+const btnPrev = document.getElementById("btn-prev");
+const btnNext = document.getElementById("btn-next");
+const pageIndicator = document.getElementById("page-indicator");
 
 let allPokemon = [];
 
@@ -165,6 +168,25 @@ function renderPokemonCards(pokemonList) {
   });
 }
 
+function setupPagination() {
+  btnPrev.addEventListener("click", async () => {
+    offset -= limit;
+    await loadPokemonPage();
+    updatePageIndicator();
+  });
+
+  btnNext.addEventListener("click", async () => {
+    offset += limit;
+    await loadPokemonPage();
+    updatePageIndicator();
+  });
+}
+
+function updatePageIndicator() {
+  const currentPage = Math.floor(offset / limit) + 1;
+  pageIndicator.textContent = `Página ${currentPage}`;
+}
+
 async function showPokemonTypes(pokemonId) {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
@@ -190,31 +212,30 @@ async function showPokemonTypes(pokemonId) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  setupPagination();
   await loadPokemonPage();
+  updatePageIndicator();
 });
 
 async function showPokemonMeasurements(pokemonId) {
-    try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
-        const data = await response.json();
-        
-        // Hacemos la conversión a kilogramos y metros
-        const weightInKg = data.weight / 10;
-        const heightInMeters = data.height / 10;
-        
-        // Buscamos dónde inyectarlo (Ajusta los IDs si es necesario)
-        const weightContainer = document.querySelector('#modal-weight');
-        const heightContainer = document.querySelector('#modal-height');
-        
-        if (weightContainer) {
-            weightContainer.textContent = `${weightInKg} kg`;
-        }
-        
-        if (heightContainer) {
-            heightContainer.textContent = `${heightInMeters} m`;
-        }
-        
-    } catch (error) {
-        console.error("Error fetching pokemon measurements:", error);
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+    const data = await response.json();
+
+    const weightInKg = data.weight / 10;
+    const heightInMeters = data.height / 10;
+
+    const weightContainer = document.querySelector("#modal-weight");
+    const heightContainer = document.querySelector("#modal-height");
+
+    if (weightContainer) {
+      weightContainer.textContent = `${weightInKg} kg`;
     }
+
+    if (heightContainer) {
+      heightContainer.textContent = `${heightInMeters} m`;
+    }
+  } catch (error) {
+    console.error("Error fetching pokemon measurements:", error);
+  }
 }
