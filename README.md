@@ -48,3 +48,12 @@ Abre `index.html` en el navegador. No requiere servidor ni dependencias.
 - Siempre verificar la rama de origen antes de aprobar un PR
 - Evitar commits directos a `develop`; usar feature branches con PR
 - La revisión de PR debe incluir verificar rama base y rama de comparación
+
+## Bitacora 
+1. Yo hice la estructura index y style sin que me apruben direcamtente lo meti 
+2. Mateo hizo pr de su feat en main y le aprobamos sin verificar en que rama estaba pusheando (skill issue). Y bueno se mergeo
+3. Joel hizo commits directamente en develop
+
+## DISCLAIMER 
+
+** La tarean se dividio pensado en 4 integrantes, se le asignos sus tasks siguiendo metodoligia git flow al cuarto integrante pero no realizo su parte, para tener algo funcional y por falta de tiempo debido a esto mismo nos vimos en la necesidad en la ultima hora de cambiar de 3 reviws a 2 y de hacer sus task con claude. ** Att: wGamba
