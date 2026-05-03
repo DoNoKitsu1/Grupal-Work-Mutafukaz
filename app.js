@@ -1,5 +1,6 @@
 const searchInput = document.getElementById("search-input");
 const suggestionsList = document.getElementById("suggestions-list");
+const pokemonGrid = document.getElementById("pokemon-grid");
 
 let allPokemon = [];
 
@@ -121,7 +122,47 @@ async function loadPokemonPage() {
 
   console.log("Pokemon details:", validPokemon);
 
+  renderPokemonCards(validPokemon);
+
   return validPokemon;
+}
+
+function renderPokemonCards(pokemonList) {
+  pokemonGrid.innerHTML = "";
+
+  pokemonList.forEach((pokemon) => {
+    const mainType = pokemon.types[0];
+
+    const card = document.createElement("div");
+    card.classList.add("card", `type-${mainType}`);
+    card.dataset.pokemonId = pokemon.id;
+
+    card.innerHTML = `
+      <span class="card-id">#${pokemon.id.toString().padStart(3, "0")}</span>
+
+      <img
+        class="card-img"
+        src="${pokemon.image}"
+        alt="${pokemon.name}"
+      />
+
+      <h2 class="card-name">${pokemon.name.toUpperCase()}</h2>
+
+      <div class="card-types">
+        ${pokemon.types
+          .map(
+            (type) => `
+              <span class="type-badge type-${type}">
+                ${typeTranslations[type] || type}
+              </span>
+            `
+          )
+          .join("")}
+      </div>
+    `;
+
+    pokemonGrid.appendChild(card);
+  });
 }
 
 async function showPokemonTypes(pokemonId) {
